@@ -5,22 +5,66 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>เปรียบเทียบรายปี 2567–2569 | Planfin เขต 1</title>
 <style>
+:root{
+  --bg:#0f172a;
+  --text-strong:#e2e8f0;
+  --muted:#94a3b8;
+  --muted2:#64748b;
+  --dim:#475569;
+  --surface:#1e293b;
+  --surface-soft:rgba(255,255,255,0.06);
+  --glass-bg:rgba(30,41,59,0.8);
+  --border-soft:rgba(255,255,255,0.08);
+  --border-medium:rgba(255,255,255,0.12);
+  --border-strong:rgba(255,255,255,0.15);
+  --row-stripe-1:rgba(255,255,255,0.04);
+  --row-stripe-2:rgba(255,255,255,0.02);
+  --overlay:rgba(0,0,0,0.2);
+  --indigo:#a5b4fc;
+  --amber:#fcd34d;
+  --pos:#6ee7b7;
+  --pos-actual:#86efac;
+  --neg:#fca5a5;
+}
+html[data-theme="light"]{
+  --bg:#f1f5f9;
+  --text-strong:#1e293b;
+  --muted:#475569;
+  --muted2:#64748b;
+  --dim:#94a3b8;
+  --surface:#ffffff;
+  --surface-soft:rgba(15,23,42,0.05);
+  --glass-bg:rgba(255,255,255,0.85);
+  --border-soft:rgba(15,23,42,0.08);
+  --border-medium:rgba(15,23,42,0.12);
+  --border-strong:rgba(15,23,42,0.15);
+  --row-stripe-1:rgba(15,23,42,0.035);
+  --row-stripe-2:rgba(15,23,42,0.02);
+  --overlay:rgba(15,23,42,0.06);
+  --indigo:#4f46e5;
+  --amber:#b45309;
+  --pos:#047857;
+  --pos-actual:#166534;
+  --neg:#b91c1c;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#0f172a;font-family:Sarabun,sans-serif;color:#e2e8f0;min-height:100vh}
-::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#1e293b}::-webkit-scrollbar-thumb{background:#475569;border-radius:3px}
-.glass{background:rgba(30,41,59,0.8);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.08);border-radius:16px}
+body{background:var(--bg);font-family:Sarabun,sans-serif;color:var(--text-strong);min-height:100vh;transition:background-color .25s ease,color .25s ease}
+.theme-toggle{display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;color:#fff;font-size:14px;font-weight:600;font-family:Sarabun,sans-serif;cursor:pointer;transition:all 0.2s}
+.theme-toggle:hover{background:rgba(255,255,255,0.18)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--surface)}::-webkit-scrollbar-thumb{background:var(--dim);border-radius:3px}
+.glass{background:var(--glass-bg);backdrop-filter:blur(12px);border:1px solid var(--border-soft);border-radius:16px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .kpi-card{border-radius:16px;padding:20px;cursor:default;transition:all 0.2s}
 .kpi-card:hover{transform:translateY(-4px);filter:brightness(1.1)}
-select{background:#1e293b;border:1px solid rgba(255,255,255,0.15);border-radius:10px;color:#e2e8f0;padding:8px 14px;font-size:13px;font-family:Sarabun,sans-serif;cursor:pointer;outline:none}
+select{background:var(--surface);border:1px solid var(--border-strong);border-radius:10px;color:var(--text-strong);padding:8px 14px;font-size:14px;font-family:Sarabun,sans-serif;cursor:pointer;outline:none}
 select:focus{border-color:#6366f1}
-.toggle-btn{padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,0.15);font-family:Sarabun,sans-serif;transition:all 0.2s}
+.toggle-btn{padding:8px 18px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:1px solid var(--border-strong);font-family:Sarabun,sans-serif;transition:all 0.2s}
 .toggle-btn.on{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border-color:rgba(167,139,250,0.4);box-shadow:0 4px 12px rgba(79,70,229,0.4)}
-.toggle-btn.off{background:rgba(255,255,255,0.06);color:#94a3b8}
-table{width:100%;border-collapse:collapse;font-size:13px}
+.toggle-btn.off{background:var(--surface-soft);color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{padding:9px 12px}
-thead tr:first-child{background:rgba(255,255,255,0.04)}
+thead tr:first-child{background:var(--row-stripe-1)}
 tbody tr:hover{background:rgba(99,102,241,0.06)}
 @media(max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
 </style>
@@ -30,13 +74,16 @@ tbody tr:hover{background:rgba(99,102,241,0.06)}
 <div style="background:linear-gradient(135deg,#1e1b4b,#312e81,#1e3a5f);border-bottom:1px solid rgba(255,255,255,0.1);position:sticky;top:0;z-index:50;padding:0 24px">
   <div style="max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 0">
     <div style="display:flex;align-items:center;gap:14px">
-      <div style="width:40px;height:40px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px">📈</div>
+      <div style="width:40px;height:40px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:21px">📈</div>
       <div>
-        <div style="font-size:16px;font-weight:800;color:#fff">เปรียบเทียบรายปี 2567–2569</div>
-        <div style="font-size:11px;color:#a5b4fc">Planfin เขตสุขภาพที่ 1 · 8 จังหวัดภาคเหนือ</div>
+        <div style="font-size:17px;font-weight:800;color:#fff">เปรียบเทียบรายปี 2567–2569</div>
+        <div style="font-size:12px;color:#a5b4fc">Planfin เขตสุขภาพที่ 1 · 8 จังหวัดภาคเหนือ</div>
       </div>
     </div>
-    <a href="index.html" style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(99,102,241,0.2);border:1px solid rgba(99,102,241,0.4);border-radius:10px;color:#a5b4fc;text-decoration:none;font-size:13px;font-weight:600">← กลับ Dashboard</a>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button id="theme-toggle-btn" class="theme-toggle" onclick="toggleTheme()">☀️ โหมดสว่าง</button>
+      <a href="index.html" style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(99,102,241,0.2);border:1px solid rgba(99,102,241,0.4);border-radius:10px;color:#a5b4fc;text-decoration:none;font-size:14px;font-weight:600">← กลับ Dashboard</a>
+    </div>
   </div>
 </div>
 
@@ -46,7 +93,7 @@ tbody tr:hover{background:rgba(99,102,241,0.06)}
 <!-- Filter Bar -->
 <div class="glass" style="padding:16px 20px;display:flex;flex-wrap:wrap;gap:16px;align-items:center">
   <div style="display:flex;align-items:center;gap:8px">
-    <span style="font-size:13px;color:#94a3b8">จังหวัด:</span>
+    <span style="font-size:14px;color:var(--muted)">จังหวัด:</span>
     <select id="sel-prov" onchange="onProvChange()">
       <option value="">ทุกจังหวัด</option>
       <option value="เชียงราย">เชียงราย</option>
@@ -60,19 +107,19 @@ tbody tr:hover{background:rgba(99,102,241,0.06)}
     </select>
   </div>
   <div style="display:flex;align-items:center;gap:8px">
-    <span style="font-size:13px;color:#94a3b8">โรงพยาบาล:</span>
+    <span style="font-size:14px;color:var(--muted)">โรงพยาบาล:</span>
     <select id="sel-hosp" onchange="onHospChange()">
       <option value="">ทุกโรงพยาบาล</option>
     </select>
   </div>
-  <button onclick="clearFilters()" style="padding:8px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#94a3b8;font-size:12px;cursor:pointer;font-family:Sarabun,sans-serif">✕ ล้างตัวกรอง</button>
-  <div id="filter-badge" style="display:none;padding:4px 12px;background:rgba(99,102,241,0.2);border:1px solid rgba(99,102,241,0.4);border-radius:20px;font-size:12px;color:#a5b4fc"></div>
+  <button onclick="clearFilters()" style="padding:8px 14px;background:var(--surface-soft);border:1px solid var(--border-medium);border-radius:8px;color:var(--muted);font-size:13px;cursor:pointer;font-family:Sarabun,sans-serif">✕ ล้างตัวกรอง</button>
+  <div id="filter-badge" style="display:none;padding:4px 12px;background:rgba(99,102,241,0.2);border:1px solid rgba(99,102,241,0.4);border-radius:20px;font-size:13px;color:var(--indigo)"></div>
 </div>
 
 <!-- Notice -->
 <div style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.3);border-radius:12px;padding:12px 18px;display:flex;gap:10px;align-items:center">
   <span>📌</span>
-  <span style="color:#a5b4fc;font-size:13px">ปี <strong>2567–2568</strong> = ข้อมูลทั้งปี (12 เดือน) &nbsp;|&nbsp; ปี <strong>2569</strong> = ข้อมูล 6 เดือนแรก &nbsp;|&nbsp; <span id="scope-label">แสดงผล: ทุกจังหวัด</span></span>
+  <span style="color:var(--indigo);font-size:14px">ปี <strong>2567–2568</strong> = ข้อมูลทั้งปี (12 เดือน) &nbsp;|&nbsp; ปี <strong>2569</strong> = ข้อมูล 6 เดือนแรก &nbsp;|&nbsp; <span id="scope-label">แสดงผล: ทุกจังหวัด</span></span>
 </div>
 
 <!-- KPI Cards -->
@@ -80,32 +127,52 @@ tbody tr:hover{background:rgba(99,102,241,0.06)}
 
 <!-- Table: มูลค่า -->
 <div class="glass" style="padding:0;overflow:hidden">
-  <div style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:10px">
-    <span style="font-size:18px">💰</span>
+  <div style="padding:14px 20px;border-bottom:1px solid var(--surface-soft);display:flex;align-items:center;gap:10px">
+    <span style="font-size:19px">💰</span>
     <div>
-      <div style="font-size:14px;font-weight:700;color:#e2e8f0" id="table-val-title">ตารางเปรียบเทียบ มูลค่า (ล้านบาท)</div>
-      <div style="font-size:11px;color:#64748b;margin-top:2px">แผน · จริง · ผลต่าง &nbsp;|&nbsp; ปี 2569 แสดงเฉพาะ %</div>
+      <div style="font-size:15px;font-weight:700;color:var(--text-strong)" id="table-val-title">ตารางเปรียบเทียบ มูลค่า (ล้านบาท)</div>
+      <div style="font-size:12px;color:var(--muted2);margin-top:2px">แผน · จริง · ผลต่าง &nbsp;|&nbsp; ปี 2569 แสดงเฉพาะ %</div>
     </div>
   </div>
-  <div style="overflow-x:auto"><table id="cmp-table-val" style="width:100%;border-collapse:collapse;font-size:12px"></table></div>
+  <div style="overflow-x:auto"><table id="cmp-table-val" style="width:100%;border-collapse:collapse;font-size:13px"></table></div>
 </div>
 
 <!-- Table: % -->
 <div class="glass" style="padding:0;overflow:hidden">
-  <div style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:10px">
-    <span style="font-size:18px">📊</span>
+  <div style="padding:14px 20px;border-bottom:1px solid var(--surface-soft);display:flex;align-items:center;gap:10px">
+    <span style="font-size:19px">📊</span>
     <div>
-      <div style="font-size:14px;font-weight:700;color:#e2e8f0" id="table-pct-title">ตารางเปรียบเทียบ % จากแผน</div>
-      <div style="font-size:11px;color:#64748b;margin-top:2px">บวก = เกินแผน · ลบ = ต่ำกว่าแผน</div>
+      <div style="font-size:15px;font-weight:700;color:var(--text-strong)" id="table-pct-title">ตารางเปรียบเทียบ % จากแผน</div>
+      <div style="font-size:12px;color:var(--muted2);margin-top:2px">บวก = เกินแผน · ลบ = ต่ำกว่าแผน</div>
     </div>
   </div>
-  <div style="overflow-x:auto"><table id="cmp-table-pct" style="width:100%;border-collapse:collapse;font-size:12px"></table></div>
+  <div style="overflow-x:auto"><table id="cmp-table-pct" style="width:100%;border-collapse:collapse;font-size:13px"></table></div>
 </div>
 
 </div>
 </div>
 
 <script>
+(function initTheme(){
+  var saved=localStorage.getItem('planfin-comparison-theme');
+  var theme=saved||'dark';
+  document.documentElement.setAttribute('data-theme',theme);
+})();
+function toggleTheme(){
+  var cur=document.documentElement.getAttribute('data-theme')||'dark';
+  var next=cur==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',next);
+  localStorage.setItem('planfin-comparison-theme',next);
+  updateThemeBtn();
+}
+function updateThemeBtn(){
+  var btn=document.getElementById('theme-toggle-btn');
+  if(!btn) return;
+  var theme=document.documentElement.getAttribute('data-theme')||'dark';
+  btn.textContent=theme==='dark'?'☀️ โหมดสว่าง':'🌙 โหมดมืด';
+}
+document.addEventListener('DOMContentLoaded',updateThemeBtn);
+
 var PROVS=["เชียงราย", "เชียงใหม่", "ลำพูน", "ลำปาง", "พะเยา", "แพร่", "น่าน", "แม่ฮ่องสอน"];
 var RAW={
   2567:[{"id":"10674","name":"รพ.เชียงรายประชานุเคราะห์","prov":"เชียงราย","ip":9492.69,"ia":10194.52,"ep":9301.99,"ea":9747.53,"ipct":7.39,"epct":4.79},{"id":"11189","name":"รพ.เทิง","prov":"เชียงราย","ip":278.48,"ia":246.88,"ep":266.45,"ea":261.87,"ipct":-11.35,"epct":-1.72},{"id":"11190","name":"รพ.พาน","prov":"เชียงราย","ip":615.67,"ia":399.98,"ep":415.43,"ea":392.31,"ipct":-35.03,"epct":-5.56},{"id":"11191","name":"รพ.ป่าแดด","prov":"เชียงราย","ip":107.59,"ia":102.91,"ep":109.09,"ea":107.1,"ipct":-4.35,"epct":-1.82},{"id":"11192","name":"รพ.แม่จัน","prov":"เชียงราย","ip":498.43,"ia":430.67,"ep":482.95,"ea":457.06,"ipct":-13.59,"epct":-5.36},{"id":"11193","name":"รพ.เชียงแสน","prov":"เชียงราย","ip":184.67,"ia":149.77,"ep":183.91,"ea":168.74,"ipct":-18.9,"epct":-8.25},{"id":"11194","name":"รพ.แม่สาย","prov":"เชียงราย","ip":572.0,"ia":503.49,"ep":497.29,"ea":488.24,"ipct":-11.98,"epct":-1.82},{"id":"11195","name":"รพ.แม่สรวย","prov":"เชียงราย","ip":246.16,"ia":194.66,"ep":246.62,"ea":217.32,"ipct":-20.92,"epct":-11.88},{"id":"11196","name":"รพ.เวียงป่าเป้า","prov":"เชียงราย","ip":232.86,"ia":188.12,"ep":232.79,"ea":208.49,"ipct":-19.21,"epct":-10.44},{"id":"11197","name":"รพ.พญาเม็งราย","prov":"เชียงราย","ip":173.71,"ia":160.2,"ep":179.01,"ea":173.97,"ipct":-7.77,"epct":-2.82},{"id":"11198","name":"รพ.เวียงแก่น","prov":"เชียงราย","ip":121.99,"ia":106.77,"ep":115.57,"ea":123.74,"ipct":-12.48,"epct":7.08},{"id":"11199","name":"รพ.ขุนตาล","prov":"เชียงราย","ip":175.16,"ia":134.86,"ep":117.77,"ea":134.33,"ipct":-23.01,"epct":14.06},{"id":"11200","name":"รพ.แม่ฟ้าหลวง","prov":"เชียงราย","ip":287.79,"ia":150.37,"ep":170.48,"ea":154.05,"ipct":-47.75,"epct":-9.64},{"id":"11201","name":"รพ.แม่ลาว","prov":"เชียงราย","ip":164.78,"ia":171.6,"ep":130.24,"ea":140.79,"ipct":4.14,"epct":8.1},{"id":"11202","name":"รพ.เวียงเชียงรุ้ง","prov":"เชียงราย","ip":116.42,"ia":107.54,"ep":116.26,"ea":111.89,"ipct":-7.63,"epct":-3.76},{"id":"11454","name":"รพ.สมเด็จพระยุพราชเชียงของ","prov":"เชียงราย","ip":299.87,"ia":254.45,"ep":277.78,"ea":261.48,"ipct":-15.14,"epct":-5.87},{"id":"15012","name":"รพ.สมเด็จพระญาณสังวร","prov":"เชียงราย","ip":282.64,"ia":266.76,"ep":269.65,"ea":266.3,"ipct":-5.62,"epct":-1.24},{"id":"28823","name":"รพ.ดอยหลวง","prov":"เชียงราย","ip":63.4,"ia":54.14,"ep":59.06,"ea":60.84,"ipct":-14.6,"epct":3.01},{"id":"06009","name":"รพ.แม่ตื่น","prov":"เชียงใหม่","ip":29.52,"ia":42.1,"ep":26.52,"ea":33.14,"ipct":42.62,"epct":24.99},{"id":"10713","name":"รพ.นครพิงค์","prov":"เชียงใหม่","ip":7845.11,"ia":7745.65,"ep":7900.18,"ea":7620.84,"ipct":-1.27,"epct":-3.54},{"id":"11119","name":"รพ.จอมทอง","prov":"เชียงใหม่","ip":901.9,"ia":863.6,"ep":764.71,"ea":818.48,"ipct":-4.25,"epct":7.03},{"id":"11120","name":"รพ.เทพรัตนเวชชานุกูล เฉลิมพระเกียรติ 60 พรรษา","prov":"เชียงใหม่","ip":152.52,"ia":140.78,"ep":156.22,"ea":165.15,"ipct":-7.69,"epct":5.71},{"id":"11121","name":"รพ.เชียงดาว","prov":"เชียงใหม่","ip":282.47,"ia":237.71,"ep":266.45,"ea":298.63,"ipct":-15.85,"epct":12.08},{"id":"11122","name":"รพ.ดอยสะเก็ด","prov":"เชียงใหม่","ip":181.73,"ia":168.96,"ep":175.87,"ea":177.03,"ipct":-7.03,"epct":0.66},{"id":"11123","name":"รพ.แม่แตง","prov":"เชียงใหม่","ip":210.2,"ia":181.04,"ep":197.58,"ea":218.9,"ipct":-13.87,"epct":10.79},{"id":"11124","name":"รพ.สะเมิง","prov":"เชียงใหม่","ip":96.14,"ia":110.02,"ep":93.76,"ea":107.54,"ipct":14.45,"epct":14.69},{"id":"11125","name":"รพ.ฝาง","prov":"เชียงใหม่","ip":939.45,"ia":1033.65,"ep":892.59,"ea":992.54,"ipct":10.03,"epct":11.2},{"id":"11126","name":"รพ.แม่อาย","prov":"เชียงใหม่","ip":233.06,"ia":218.76,"ep":241.71,"ea":236.13,"ipct":-6.14,"epct":-2.31},{"id":"11127","name":"รพ.พร้าว","prov":"เชียงใหม่","ip":131.17,"ia":136.71,"ep":134.14,"ea":139.5,"ipct":4.23,"epct":4.0},{"id":"11128","name":"รพ.สันป่าตอง","prov":"เชียงใหม่","ip":575.0,"ia":624.37,"ep":573.49,"ea":583.62,"ipct":8.59,"epct":1.77},{"id":"11129","name":"รพ.สันกำแพง","prov":"เชียงใหม่","ip":185.78,"ia":168.13,"ep":181.96,"ea":180.81,"ipct":-9.5,"epct":-0.63},{"id":"11130","name":"รพ.สันทราย","prov":"เชียงใหม่","ip":913.68,"ia":786.14,"ep":756.48,"ea":768.31,"ipct":-13.96,"epct":1.56},{"id":"11131","name":"รพ.หางดง","prov":"เชียงใหม่","ip":309.71,"ia":308.86,"ep":296.44,"ea":291.58,"ipct":-0.28,"epct":-1.64},{"id":"11132","name":"รพ.ฮอด","prov":"เชียงใหม่","ip":143.44,"ia":141.23,"ep":144.46,"ea":154.85,"ipct":-1.54,"epct":7.19},{"id":"11133","name":"รพ.ดอยเต่า","prov":"เชียงใหม่","ip":104.56,"ia":90.56,"ep":100.19,"ea":97.73,"ipct":-13.38,"epct":-2.46},{"id":"11134","name":"รพ.อมก๋อย","prov":"เชียงใหม่","ip":151.59,"ia":153.45,"ep":161.15,"ea":166.45,"ipct":1.23,"epct":3.29},{"id":"11135","name":"รพ.สารภี","prov":"เชียงใหม่","ip":190.97,"ia":190.56,"ep":181.07,"ea":184.68,"ipct":-0.22,"epct":1.99},{"id":"11136","name":"รพ.เวียงแหง","prov":"เชียงใหม่","ip":103.08,"ia":95.74,"ep":99.21,"ea":116.07,"ipct":-7.12,"epct":17.0},{"id":"11137","name":"รพ.ไชยปราการ","prov":"เชียงใหม่","ip":120.43,"ia":128.91,"ep":117.36,"ea":128.75,"ipct":7.05,"epct":9.7},{"id":"11138","name":"รพ.แม่วาง","prov":"เชียงใหม่","ip":128.39,"ia":130.53,"ep":124.92,"ea":131.53,"ipct":1.67,"epct":5.29},{"id":"11139","name":"รพ.แม่ออน","prov":"เชียงใหม่","ip":98.16,"ia":154.91,"ep":102.48,"ea":106.64,"ipct":57.82,"epct":4.06},{"id":"11643","name":"รพ.ดอยหล่อ","prov":"เชียงใหม่","ip":87.43,"ia":91.02,"ep":95.76,"ea":95.43,"ipct":4.1,"epct":-0.34},{"id":"23736","name":"รพ.วัดจันทร์ เฉลิมพระเกียรติ 80 พรรษา","prov":"เชียงใหม่","ip":75.13,"ia":76.04,"ep":66.69,"ea":70.14,"ipct":1.21,"epct":5.18},{"id":"10716","name":"รพ.น่าน","prov":"น่าน","ip":1805.11,"ia":1809.69,"ep":1805.11,"ea":1757.25,"ipct":0.25,"epct":-2.65},{"id":"11173","name":"รพ.แม่จริม","prov":"น่าน","ip":70.91,"ia":65.22,"ep":69.21,"ea":66.57,"ipct":-8.02,"epct":-3.81},{"id":"11174","name":"รพ.บ้านหลวง","prov":"น่าน","ip":66.45,"ia":57.1,"ep":68.35,"ea":65.62,"ipct":-14.07,"epct":-4.0},{"id":"11175","name":"รพ.นาน้อย","prov":"น่าน","ip":114.93,"ia":101.68,"ep":101.47,"ea":104.72,"ipct":-11.53,"epct":3.2},{"id":"11176","name":"รพ.ท่าวังผา","prov":"น่าน","ip":172.09,"ia":161.71,"ep":149.99,"ea":158.29,"ipct":-6.03,"epct":5.54},{"id":"11177","name":"รพ.เวียงสา","prov":"น่าน","ip":217.55,"ia":206.46,"ep":209.45,"ea":218.89,"ipct":-5.1,"epct":4.51},{"id":"11178","name":"รพ.ทุ่งช้าง","prov":"น่าน","ip":85.98,"ia":82.99,"ep":88.88,"ea":87.23,"ipct":-3.48,"epct":-1.85},{"id":"11179","name":"รพ.เชียงกลาง","prov":"น่าน","ip":89.93,"ia":88.66,"ep":90.83,"ea":97.51,"ipct":-1.41,"epct":7.36},{"id":"11180","name":"รพ.นาหมื่น","prov":"น่าน","ip":76.28,"ia":65.62,"ep":70.42,"ea":69.0,"ipct":-13.98,"epct":-2.03},{"id":"11181","name":"รพ.สันติสุข","prov":"น่าน","ip":79.97,"ia":68.17,"ep":76.63,"ea":71.58,"ipct":-14.76,"epct":-6.59},{"id":"11182","name":"รพ.บ่อเกลือ","prov":"น่าน","ip":60.21,"ia":49.29,"ep":56.94,"ea":61.34,"ipct":-18.13,"epct":7.72},{"id":"11183","name":"รพ.สองแคว","prov":"น่าน","ip":78.27,"ia":75.14,"ep":73.86,"ea":69.65,"ipct":-4.0,"epct":-5.71},{"id":"11453","name":"รพ.สมเด็จพระยุพราชปัว","prov":"น่าน","ip":432.62,"ia":423.9,"ep":433.82,"ea":433.16,"ipct":-2.02,"epct":-0.15},{"id":"11625","name":"รพ.เฉลิมพระเกียรติ (น่าน)","prov":"น่าน","ip":64.51,"ia":56.61,"ep":57.37,"ea":66.87,"ipct":-12.24,"epct":16.56},{"id":"25017","name":"รพ.ภูเพียง","prov":"น่าน","ip":82.66,"ia":53.76,"ep":80.86,"ea":65.03,"ipct":-34.96,"epct":-19.58},{"id":"10717","name":"รพ.พะเยา","prov":"พะเยา","ip":2133.05,"ia":2000.2,"ep":2075.84,"ea":2008.27,"ipct":-6.23,"epct":-3.26},{"id":"10718","name":"รพ.เชียงคำ","prov":"พะเยา","ip":1440.88,"ia":1465.32,"ep":1447.48,"ea":1466.92,"ipct":1.7,"epct":1.34},{"id":"11184","name":"รพ.จุน","prov":"พะเยา","ip":151.8,"ia":155.47,"ep":158.59,"ea":165.44,"ipct":2.42,"epct":4.32},{"id":"11185","name":"รพ.เชียงม่วน","prov":"พะเยา","ip":95.58,"ia":88.08,"ep":90.89,"ea":96.23,"ipct":-7.85,"epct":5.87},{"id":"11186","name":"รพ.ดอกคำใต้","prov":"พะเยา","ip":194.81,"ia":190.44,"ep":193.89,"ea":195.31,"ipct":-2.24,"epct":0.73},{"id":"11187","name":"รพ.ปง","prov":"พะเยา","ip":167.93,"ia":162.44,"ep":167.63,"ea":168.6,"ipct":-3.27,"epct":0.58},{"id":"11188","name":"รพ.แม่ใจ","prov":"พะเยา","ip":106.62,"ia":109.03,"ep":112.1,"ea":112.33,"ipct":2.26,"epct":0.2},{"id":"40744","name":"รพ.ภูซาง","prov":"พะเยา","ip":54.64,"ia":56.87,"ep":56.44,"ea":54.39,"ipct":4.09,"epct":-3.63},{"id":"40745","name":"รพ.ภูกามยาว","prov":"พะเยา","ip":40.01,"ia":35.56,"ep":44.45,"ea":42.82,"ipct":-11.14,"epct":-3.66},{"id":"10715","name":"รพ.แพร่","prov":"แพร่","ip":2895.62,"ia":2940.32,"ep":2892.47,"ea":2946.28,"ipct":1.54,"epct":1.86},{"id":"11166","name":"รพ.ร้องกวาง","prov":"แพร่","ip":175.6,"ia":165.94,"ep":181.31,"ea":186.05,"ipct":-5.5,"epct":2.61},{"id":"11167","name":"รพ.ลอง","prov":"แพร่","ip":144.16,"ia":141.74,"ep":145.46,"ea":146.92,"ipct":-1.68,"epct":1.01},{"id":"11169","name":"รพ.สูงเม่น","prov":"แพร่","ip":241.52,"ia":238.94,"ep":243.76,"ea":256.51,"ipct":-1.07,"epct":5.23},{"id":"11170","name":"รพ.สอง","prov":"แพร่","ip":164.27,"ia":178.35,"ep":163.58,"ea":175.06,"ipct":8.57,"epct":7.02},{"id":"11171","name":"รพ.วังชิ้น","prov":"แพร่","ip":127.62,"ia":128.92,"ep":121.69,"ea":132.29,"ipct":1.02,"epct":8.71},{"id":"11172","name":"รพ.หนองม่วงไข่","prov":"แพร่","ip":96.6,"ia":89.44,"ep":99.16,"ea":101.43,"ipct":-7.41,"epct":2.29},{"id":"11452","name":"รพ.สมเด็จพระยุพราชเด่นชัย","prov":"แพร่","ip":157.28,"ia":167.07,"ep":159.18,"ea":174.28,"ipct":6.23,"epct":9.49},{"id":"10719","name":"รพ.ศรีสังวาลย์","prov":"แม่ฮ่องสอน","ip":552.93,"ia":490.07,"ep":489.74,"ea":484.08,"ipct":-11.37,"epct":-1.16},{"id":"11203","name":"รพ.ขุนยวม","prov":"แม่ฮ่องสอน","ip":111.77,"ia":107.62,"ep":112.79,"ea":111.96,"ipct":-3.71,"epct":-0.73},{"id":"11204","name":"รพ.ปาย","prov":"แม่ฮ่องสอน","ip":174.21,"ia":190.82,"ep":179.74,"ea":184.3,"ipct":9.53,"epct":2.54},{"id":"11205","name":"รพ.แม่สะเรียง","prov":"แม่ฮ่องสอน","ip":301.41,"ia":274.79,"ep":323.55,"ea":312.4,"ipct":-8.83,"epct":-3.45},{"id":"11206","name":"รพ.แม่ลาน้อย","prov":"แม่ฮ่องสอน","ip":108.83,"ia":104.72,"ep":108.49,"ea":103.5,"ipct":-3.78,"epct":-4.61},{"id":"11207","name":"รพ.สบเมย","prov":"แม่ฮ่องสอน","ip":104.24,"ia":114.56,"ep":105.79,"ea":108.2,"ipct":9.91,"epct":2.27},{"id":"11208","name":"รพ.ปางมะผ้า","prov":"แม่ฮ่องสอน","ip":95.56,"ia":92.86,"ep":97.74,"ea":91.32,"ipct":-2.82,"epct":-6.57},{"id":"10672","name":"รพ.ลำปาง","prov":"ลำปาง","ip":5253.35,"ia":5700.97,"ep":5525.35,"ea":5880.61,"ipct":8.52,"epct":6.43},{"id":"11146","name":"รพ.แม่เมาะ","prov":"ลำปาง","ip":133.1,"ia":137.78,"ep":147.64,"ea":146.34,"ipct":3.52,"epct":-0.88},{"id":"11147","name":"รพ.เกาะคา","prov":"ลำปาง","ip":480.45,"ia":474.76,"ep":466.48,"ea":466.44,"ipct":-1.18,"epct":-0.01},{"id":"11148","name":"รพ.เสริมงาม","prov":"ลำปาง","ip":110.93,"ia":111.41,"ep":112.96,"ea":113.45,"ipct":0.44,"epct":0.43},{"id":"11149","name":"รพ.งาว","prov":"ลำปาง","ip":142.99,"ia":145.07,"ep":151.38,"ea":151.02,"ipct":1.45,"epct":-0.24},{"id":"11150","name":"รพ.แจ้ห่ม","prov":"ลำปาง","ip":117.69,"ia":137.43,"ep":131.72,"ea":137.91,"ipct":16.77,"epct":4.7},{"id":"11151","name":"รพ.วังเหนือ","prov":"ลำปาง","ip":143.0,"ia":149.15,"ep":150.36,"ea":158.2,"ipct":4.3,"epct":5.22},{"id":"11152","name":"รพ.เถิน","prov":"ลำปาง","ip":301.6,"ia":287.38,"ep":295.68,"ea":297.67,"ipct":-4.71,"epct":0.67},{"id":"11153","name":"รพ.แม่พริก","prov":"ลำปาง","ip":71.77,"ia":67.68,"ep":77.85,"ea":76.34,"ipct":-5.71,"epct":-1.94},{"id":"11154","name":"รพ.แม่ทะ","prov":"ลำปาง","ip":140.7,"ia":148.07,"ep":151.0,"ea":152.6,"ipct":5.24,"epct":1.06},{"id":"11155","name":"รพ.สบปราบ","prov":"ลำปาง","ip":136.31,"ia":104.42,"ep":108.83,"ea":106.27,"ipct":-23.39,"epct":-2.35},{"id":"11156","name":"รพ.ห้างฉัตร","prov":"ลำปาง","ip":138.51,"ia":140.53,"ep":153.96,"ea":159.78,"ipct":1.46,"epct":3.78},{"id":"11157","name":"รพ.เมืองปาน","prov":"ลำปาง","ip":93.71,"ia":98.61,"ep":115.41,"ea":114.56,"ipct":5.23,"epct":-0.74},{"id":"10714","name":"รพ.ลำพูน","prov":"ลำพูน","ip":1363.27,"ia":1394.88,"ep":1387.53,"ea":1415.96,"ipct":2.32,"epct":2.05},{"id":"11140","name":"รพ.แม่ทา","prov":"ลำพูน","ip":111.33,"ia":113.19,"ep":119.26,"ea":118.86,"ipct":1.67,"epct":-0.34},{"id":"11141","name":"รพ.บ้านโฮ่ง","prov":"ลำพูน","ip":148.2,"ia":141.95,"ep":141.88,"ea":138.87,"ipct":-4.22,"epct":-2.12},{"id":"11142","name":"รพ.ลี้","prov":"ลำพูน","ip":228.24,"ia":246.7,"ep":231.64,"ea":242.96,"ipct":8.09,"epct":4.88},{"id":"11143","name":"รพ.ทุ่งหัวช้าง","prov":"ลำพูน","ip":90.4,"ia":83.94,"ep":102.15,"ea":99.77,"ipct":-7.15,"epct":-2.33},{"id":"11144","name":"รพ.ป่าซาง","prov":"ลำพูน","ip":220.14,"ia":219.25,"ep":234.54,"ea":229.07,"ipct":-0.4,"epct":-2.33},{"id":"11145","name":"รพ.บ้านธิ","prov":"ลำพูน","ip":97.17,"ia":95.85,"ep":99.53,"ea":100.61,"ipct":-1.36,"epct":1.09},{"id":"24956","name":"รพ.เวียงหนองล่อง","prov":"ลำพูน","ip":78.77,"ia":78.22,"ep":78.82,"ea":81.79,"ipct":-0.7,"epct":3.77}],
@@ -119,8 +186,8 @@ function fmt(v,isPct){
   if(isPct) return (v>=0?'+':'')+v.toFixed(2)+'%';
   return (v>=0?'+':'')+v.toFixed(1)+' ล.';
 }
-function ic(v){return v>=0?'#6ee7b7':'#fca5a5';}
-function ec(v){return v<=0?'#6ee7b7':'#fca5a5';}
+function ic(v){return v>=0?'var(--pos)':'var(--neg)';}
+function ec(v){return v<=0?'var(--pos)':'var(--neg)';}
 function avg(a){return a.length?a.reduce(function(s,x){return s+x;},0)/a.length:0;}
 
 // ── Filter helpers ──
@@ -237,7 +304,7 @@ function buildKPI(){
   var L={2567:'ปี 2567 (ทั้งปี)',2568:'ปี 2568 (ทั้งปี)',2569:'ปี 2569 * (ครึ่งปี)'};
   var BG={2567:'rgba(99,102,241,0.15)',2568:'rgba(245,158,11,0.15)',2569:'rgba(16,185,129,0.15)'};
   var BD={2567:'rgba(99,102,241,0.4)',2568:'rgba(245,158,11,0.4)',2569:'rgba(16,185,129,0.4)'};
-  var TC={2567:'#a5b4fc',2568:'#fcd34d',2569:'#6ee7b7'};
+  var TC={2567:'var(--indigo)',2568:'var(--amber)',2569:'var(--pos)'};
   var isPct=false;
   el.innerHTML='';
   [2567,2568,2569].forEach(function(y){
@@ -261,32 +328,32 @@ function buildKPI(){
     var mul=hosps.length>1?' (รวม)':'';
     var avg_lbl=isPct?' (เฉลี่ย)':mul;
     if(!isPct&&y!==2569){
-      d.innerHTML='<div style="font-size:12px;font-weight:700;color:'+TC[y]+';margin-bottom:10px">'+L[y]+'</div>'
+      d.innerHTML='<div style="font-size:13px;font-weight:700;color:'+TC[y]+';margin-bottom:10px">'+L[y]+'</div>'
         +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
         // รายได้
-        +'<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">'
-        +'<div style="font-size:10px;color:#64748b;margin-bottom:2px">💰 รายได้</div>'
-        +'<div style="font-size:10px;color:#94a3b8">แผน: <span style="color:#e2e8f0;font-weight:700">'+fmtV(ip)+'</span></div>'
-        +'<div style="font-size:10px;color:#94a3b8">จริง: <span style="color:#e2e8f0;font-weight:700">'+fmtV(ia)+'</span></div>'
-        +'<div style="font-size:14px;font-weight:800;color:'+ic(incDiff)+';margin-top:4px">'+fmt(incDiff,false)+'</div>'
+        +'<div style="background:var(--overlay);border-radius:8px;padding:8px">'
+        +'<div style="font-size:11px;color:var(--muted2);margin-bottom:2px">💰 รายได้</div>'
+        +'<div style="font-size:11px;color:var(--muted)">แผน: <span style="color:var(--text-strong);font-weight:700">'+fmtV(ip)+'</span></div>'
+        +'<div style="font-size:11px;color:var(--muted)">จริง: <span style="color:var(--text-strong);font-weight:700">'+fmtV(ia)+'</span></div>'
+        +'<div style="font-size:15px;font-weight:800;color:'+ic(incDiff)+';margin-top:4px">'+fmt(incDiff,false)+'</div>'
         +'</div>'
         // ค่าใช้จ่าย
-        +'<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px">'
-        +'<div style="font-size:10px;color:#64748b;margin-bottom:2px">📊 ค่าใช้จ่าย</div>'
-        +'<div style="font-size:10px;color:#94a3b8">แผน: <span style="color:#e2e8f0;font-weight:700">'+fmtV(ep)+'</span></div>'
-        +'<div style="font-size:10px;color:#94a3b8">จริง: <span style="color:#e2e8f0;font-weight:700">'+fmtV(ea)+'</span></div>'
-        +'<div style="font-size:14px;font-weight:800;color:'+ec(expDiff)+';margin-top:4px">'+fmt(expDiff,false)+'</div>'
+        +'<div style="background:var(--overlay);border-radius:8px;padding:8px">'
+        +'<div style="font-size:11px;color:var(--muted2);margin-bottom:2px">📊 ค่าใช้จ่าย</div>'
+        +'<div style="font-size:11px;color:var(--muted)">แผน: <span style="color:var(--text-strong);font-weight:700">'+fmtV(ep)+'</span></div>'
+        +'<div style="font-size:11px;color:var(--muted)">จริง: <span style="color:var(--text-strong);font-weight:700">'+fmtV(ea)+'</span></div>'
+        +'<div style="font-size:15px;font-weight:800;color:'+ec(expDiff)+';margin-top:4px">'+fmt(expDiff,false)+'</div>'
         +'</div>'
         +'</div>';
     } else {
-      d.innerHTML='<div style="font-size:12px;font-weight:700;color:'+TC[y]+';margin-bottom:12px">'+L[y]+'</div>'
+      d.innerHTML='<div style="font-size:13px;font-weight:700;color:'+TC[y]+';margin-bottom:12px">'+L[y]+'</div>'
         +'<div style="display:flex;justify-content:space-between;gap:12px">'
-        +'<div><div style="font-size:10px;color:#64748b;margin-bottom:4px">รายได้'+avg_lbl+'</div>'
-        +'<div style="font-size:22px;font-weight:800;color:'+ic(incDiff)+'">'+fmt(incDiff,true)+'</div></div>'
-        +'<div style="text-align:right"><div style="font-size:10px;color:#64748b;margin-bottom:4px">ค่าใช้จ่าย'+avg_lbl+'</div>'
-        +'<div style="font-size:22px;font-weight:800;color:'+ec(expDiff)+'">'+fmt(expDiff,true)+'</div>'
+        +'<div><div style="font-size:11px;color:var(--muted2);margin-bottom:4px">รายได้'+avg_lbl+'</div>'
+        +'<div style="font-size:23px;font-weight:800;color:'+ic(incDiff)+'">'+fmt(incDiff,true)+'</div></div>'
+        +'<div style="text-align:right"><div style="font-size:11px;color:var(--muted2);margin-bottom:4px">ค่าใช้จ่าย'+avg_lbl+'</div>'
+        +'<div style="font-size:23px;font-weight:800;color:'+ec(expDiff)+'">'+fmt(expDiff,true)+'</div>'
         +'</div></div>'
-        +(y===2569&&!isPct?'<div style="font-size:10px;color:#475569;margin-top:8px">* มูลค่าไม่มีในข้อมูลปี 2569</div>':'');
+        +(y===2569&&!isPct?'<div style="font-size:11px;color:var(--dim);margin-top:8px">* มูลค่าไม่มีในข้อมูลปี 2569</div>':'');
     }
     el.appendChild(d);
   });
@@ -298,33 +365,33 @@ function buildKPI(){
 // ── Table ──
 function buildTableVal(labels){
   var t=document.getElementById('cmp-table-val');
-  var C2='border-left:1px solid rgba(255,255,255,0.08)';
-  var C3='border-left:1px solid rgba(255,255,255,0.04)';
+  var C2='border-left:1px solid var(--border-soft)';
+  var C3='border-left:1px solid var(--row-stripe-1)';
   var lh=selHosp||selProv?'โรงพยาบาล':'จังหวัด';
-  var h='<thead><tr style="background:rgba(255,255,255,0.04)">'
-    +'<th style="text-align:left;color:#94a3b8;font-size:12px;padding:8px 10px" rowspan="2">'+lh+'</th>'
-    +'<th colspan="6" style="text-align:center;color:#a5b4fc;font-size:12px;'+C2+';padding:6px">ปี 2567 (ล้านบาท)</th>'
-    +'<th colspan="6" style="text-align:center;color:#fcd34d;font-size:12px;'+C2+';padding:6px">ปี 2568 (ล้านบาท)</th>'
-    +'<th colspan="6" style="text-align:center;color:#6ee7b7;font-size:12px;'+C2+';padding:6px">ปี 2569 (ล้านบาท) * 6 เดือน</th>'
-    +'</tr><tr style="background:rgba(255,255,255,0.02)">'
-    +'<th style="text-align:right;color:#a5b4fc;font-size:10px;'+C2+';padding:4px 8px">แผนรายได้</th>'
-    +'<th style="text-align:right;color:#94a3b8;font-size:10px;padding:4px 8px">รายได้จริง</th>'
-    +'<th style="text-align:right;color:#64748b;font-size:10px;padding:4px 8px">ผลต่าง</th>'
-    +'<th style="text-align:right;color:#a5b4fc;font-size:10px;'+C3+';padding:4px 8px">แผนรายจ่าย</th>'
-    +'<th style="text-align:right;color:#94a3b8;font-size:10px;padding:4px 8px">รายจ่ายจริง</th>'
-    +'<th style="text-align:right;color:#64748b;font-size:10px;padding:4px 8px">ผลต่าง</th>'
-    +'<th style="text-align:right;color:#fcd34d;font-size:10px;'+C2+';padding:4px 8px">แผนรายได้</th>'
-    +'<th style="text-align:right;color:#94a3b8;font-size:10px;padding:4px 8px">รายได้จริง</th>'
-    +'<th style="text-align:right;color:#64748b;font-size:10px;padding:4px 8px">ผลต่าง</th>'
-    +'<th style="text-align:right;color:#fcd34d;font-size:10px;'+C3+';padding:4px 8px">แผนรายจ่าย</th>'
-    +'<th style="text-align:right;color:#94a3b8;font-size:10px;padding:4px 8px">รายจ่ายจริง</th>'
-    +'<th style="text-align:right;color:#64748b;font-size:10px;padding:4px 8px">ผลต่าง</th>'
-    +'<th style="text-align:right;color:#6ee7b7;font-size:10px;'+C2+';padding:4px 8px">แผนรายได้</th>'
-    +'<th style="text-align:right;color:#86efac;font-size:10px;padding:4px 8px">รายได้จริง</th>'
-    +'<th style="text-align:right;color:#64748b;font-size:10px;padding:4px 8px">ผลต่าง</th>'
-    +'<th style="text-align:right;color:#6ee7b7;font-size:10px;'+C3+';padding:4px 8px">แผนรายจ่าย</th>'
-    +'<th style="text-align:right;color:#86efac;font-size:10px;padding:4px 8px">รายจ่ายจริง</th>'
-    +'<th style="text-align:right;color:#64748b;font-size:10px;padding:4px 8px">ผลต่าง</th>'
+  var h='<thead><tr style="background:var(--row-stripe-1)">'
+    +'<th style="text-align:left;color:var(--muted);font-size:13px;padding:8px 10px" rowspan="2">'+lh+'</th>'
+    +'<th colspan="6" style="text-align:center;color:var(--indigo);font-size:13px;'+C2+';padding:6px">ปี 2567 (ล้านบาท)</th>'
+    +'<th colspan="6" style="text-align:center;color:var(--amber);font-size:13px;'+C2+';padding:6px">ปี 2568 (ล้านบาท)</th>'
+    +'<th colspan="6" style="text-align:center;color:var(--pos);font-size:13px;'+C2+';padding:6px">ปี 2569 (ล้านบาท) * 6 เดือน</th>'
+    +'</tr><tr style="background:var(--row-stripe-2)">'
+    +'<th style="text-align:right;color:var(--indigo);font-size:11px;'+C2+';padding:4px 8px">แผนรายได้</th>'
+    +'<th style="text-align:right;color:var(--muted);font-size:11px;padding:4px 8px">รายได้จริง</th>'
+    +'<th style="text-align:right;color:var(--muted2);font-size:11px;padding:4px 8px">ผลต่าง</th>'
+    +'<th style="text-align:right;color:var(--indigo);font-size:11px;'+C3+';padding:4px 8px">แผนรายจ่าย</th>'
+    +'<th style="text-align:right;color:var(--muted);font-size:11px;padding:4px 8px">รายจ่ายจริง</th>'
+    +'<th style="text-align:right;color:var(--muted2);font-size:11px;padding:4px 8px">ผลต่าง</th>'
+    +'<th style="text-align:right;color:var(--amber);font-size:11px;'+C2+';padding:4px 8px">แผนรายได้</th>'
+    +'<th style="text-align:right;color:var(--muted);font-size:11px;padding:4px 8px">รายได้จริง</th>'
+    +'<th style="text-align:right;color:var(--muted2);font-size:11px;padding:4px 8px">ผลต่าง</th>'
+    +'<th style="text-align:right;color:var(--amber);font-size:11px;'+C3+';padding:4px 8px">แผนรายจ่าย</th>'
+    +'<th style="text-align:right;color:var(--muted);font-size:11px;padding:4px 8px">รายจ่ายจริง</th>'
+    +'<th style="text-align:right;color:var(--muted2);font-size:11px;padding:4px 8px">ผลต่าง</th>'
+    +'<th style="text-align:right;color:var(--pos);font-size:11px;'+C2+';padding:4px 8px">แผนรายได้</th>'
+    +'<th style="text-align:right;color:var(--pos-actual);font-size:11px;padding:4px 8px">รายได้จริง</th>'
+    +'<th style="text-align:right;color:var(--muted2);font-size:11px;padding:4px 8px">ผลต่าง</th>'
+    +'<th style="text-align:right;color:var(--pos);font-size:11px;'+C3+';padding:4px 8px">แผนรายจ่าย</th>'
+    +'<th style="text-align:right;color:var(--pos-actual);font-size:11px;padding:4px 8px">รายจ่ายจริง</th>'
+    +'<th style="text-align:right;color:var(--muted2);font-size:11px;padding:4px 8px">ผลต่าง</th>'
     +'</tr></thead><tbody>';
 
   var ip67=aggPlan(2567,labels,'i'),ia67=aggActual(2567,labels,'i'),di67=aggDiff(2567,labels,'i');
@@ -335,13 +402,13 @@ function buildTableVal(labels){
   var ep69=aggPlan(2569,labels,'e'),ea69=aggActual(2569,labels,'e'),de69=aggDiff(2569,labels,'e');
 
   labels.forEach(function(lbl,i){
-    var bg=i%2?'background:rgba(255,255,255,0.02)':'';
-    function tdP(v,bl){var b=bl?C2+';':'';return '<td style="'+b+'text-align:right;padding:4px 8px;color:#94a3b8;font-size:11px">'+fmtV(v)+'</td>';}
-    function tdA(v){return '<td style="text-align:right;padding:4px 8px;color:#e2e8f0;font-size:11px">'+fmtV(v)+'</td>';}
-    function tdD(v,isE,bl){var c=isE?ec(v):ic(v);var b=bl?C3+';':'';return '<td style="'+b+'text-align:right;padding:4px 8px;font-weight:700;color:'+c+';font-size:11px">'+(v>0?'+':'')+fmtV(v)+'</td>';}
+    var bg=i%2?'background:var(--row-stripe-2)':'';
+    function tdP(v,bl){var b=bl?C2+';':'';return '<td style="'+b+'text-align:right;padding:4px 8px;color:var(--muted);font-size:12px">'+fmtV(v)+'</td>';}
+    function tdA(v){return '<td style="text-align:right;padding:4px 8px;color:var(--text-strong);font-size:12px">'+fmtV(v)+'</td>';}
+    function tdD(v,isE,bl){var c=isE?ec(v):ic(v);var b=bl?C3+';':'';return '<td style="'+b+'text-align:right;padding:4px 8px;font-weight:700;color:'+c+';font-size:12px">'+(v>0?'+':'')+fmtV(v)+'</td>';}
     function tdPct(v,isE,bl){var c=isE?ec(v):ic(v);var b=bl?C2+';':'';return '<td style="'+b+'text-align:right;padding:4px 8px;font-weight:600;color:'+c+'">'+fmt(v,true)+'</td>';}
     h+='<tr style="'+bg+'">'
-      +'<td style="font-weight:600;color:#e2e8f0;white-space:nowrap;padding:4px 10px">'+lbl+'</td>'
+      +'<td style="font-weight:600;color:var(--text-strong);white-space:nowrap;padding:4px 10px">'+lbl+'</td>'
       +tdP(ip67[i],true)+tdA(ia67[i])+tdD(di67[i],false,true)
       +tdP(ep67[i],true)+tdA(ea67[i])+tdD(de67[i],true,false)
       +tdP(ip68[i],true)+tdA(ia68[i])+tdD(di68[i],false,true)
@@ -350,25 +417,25 @@ function buildTableVal(labels){
       +tdP(ep69[i],true)+tdA(ea69[i])+tdD(de69[i],true,false)
       +'</tr>';
   });
-  t.innerHTML=h+'</tbody><tfoot><tr><td colspan="19" style="padding:8px 12px;font-size:11px;color:#475569">* ปี 2569 = ข้อมูล 6 เดือนแรก (ม.ค.–มิ.ย. 2569)</td></tr></tfoot>';
+  t.innerHTML=h+'</tbody><tfoot><tr><td colspan="19" style="padding:8px 12px;font-size:12px;color:var(--dim)">* ปี 2569 = ข้อมูล 6 เดือนแรก (ม.ค.–มิ.ย. 2569)</td></tr></tfoot>';
 }
 
 function buildTablePct(labels){
   var t=document.getElementById('cmp-table-pct');
-  var C2='border-left:1px solid rgba(255,255,255,0.08)';
+  var C2='border-left:1px solid var(--border-soft)';
   var lh=selHosp||selProv?'โรงพยาบาล':'จังหวัด';
-  var h='<thead><tr style="background:rgba(255,255,255,0.04)">'
-    +'<th style="text-align:left;color:#94a3b8;font-size:12px;padding:8px 10px">'+lh+'</th>'
-    +'<th colspan="2" style="text-align:center;color:#a5b4fc;font-size:12px;'+C2+';padding:6px">ปี 2567</th>'
-    +'<th colspan="2" style="text-align:center;color:#fcd34d;font-size:12px;'+C2+';padding:6px">ปี 2568</th>'
-    +'<th colspan="2" style="text-align:center;color:#6ee7b7;font-size:12px;'+C2+';padding:6px">ปี 2569 *</th>'
-    +'</tr><tr style="background:rgba(255,255,255,0.02)"><th></th>'
-    +'<th style="text-align:center;color:#64748b;font-size:11px;'+C2+';padding:4px 8px">รายได้ %</th>'
-    +'<th style="text-align:center;color:#64748b;font-size:11px;padding:4px 8px">รายจ่าย %</th>'
-    +'<th style="text-align:center;color:#64748b;font-size:11px;'+C2+';padding:4px 8px">รายได้ %</th>'
-    +'<th style="text-align:center;color:#64748b;font-size:11px;padding:4px 8px">รายจ่าย %</th>'
-    +'<th style="text-align:center;color:#64748b;font-size:11px;'+C2+';padding:4px 8px">รายได้ %</th>'
-    +'<th style="text-align:center;color:#64748b;font-size:11px;padding:4px 8px">รายจ่าย %</th>'
+  var h='<thead><tr style="background:var(--row-stripe-1)">'
+    +'<th style="text-align:left;color:var(--muted);font-size:13px;padding:8px 10px">'+lh+'</th>'
+    +'<th colspan="2" style="text-align:center;color:var(--indigo);font-size:13px;'+C2+';padding:6px">ปี 2567</th>'
+    +'<th colspan="2" style="text-align:center;color:var(--amber);font-size:13px;'+C2+';padding:6px">ปี 2568</th>'
+    +'<th colspan="2" style="text-align:center;color:var(--pos);font-size:13px;'+C2+';padding:6px">ปี 2569 *</th>'
+    +'</tr><tr style="background:var(--row-stripe-2)"><th></th>'
+    +'<th style="text-align:center;color:var(--muted2);font-size:12px;'+C2+';padding:4px 8px">รายได้ %</th>'
+    +'<th style="text-align:center;color:var(--muted2);font-size:12px;padding:4px 8px">รายจ่าย %</th>'
+    +'<th style="text-align:center;color:var(--muted2);font-size:12px;'+C2+';padding:4px 8px">รายได้ %</th>'
+    +'<th style="text-align:center;color:var(--muted2);font-size:12px;padding:4px 8px">รายจ่าย %</th>'
+    +'<th style="text-align:center;color:var(--muted2);font-size:12px;'+C2+';padding:4px 8px">รายได้ %</th>'
+    +'<th style="text-align:center;color:var(--muted2);font-size:12px;padding:4px 8px">รายจ่าย %</th>'
     +'</tr></thead><tbody>';
 
   var di67=aggByLabel(2567,labels,'i'),de67=aggByLabel(2567,labels,'e');
@@ -376,20 +443,20 @@ function buildTablePct(labels){
   var di69=aggByLabel(2569,labels,'i'),de69=aggByLabel(2569,labels,'e');
 
   labels.forEach(function(lbl,i){
-    var bg=i%2?'background:rgba(255,255,255,0.02)':'';
+    var bg=i%2?'background:var(--row-stripe-2)':'';
     function td(v,isE,bl){
       var c=isE?ec(v):ic(v);
       var b=bl?C2+';':'';
       return '<td style="'+b+'text-align:center;font-weight:600;color:'+c+';padding:5px 10px">'+fmt(v,true)+'</td>';
     }
     h+='<tr style="'+bg+'">'
-      +'<td style="font-weight:600;color:#e2e8f0;white-space:nowrap;padding:5px 10px">'+lbl+'</td>'
+      +'<td style="font-weight:600;color:var(--text-strong);white-space:nowrap;padding:5px 10px">'+lbl+'</td>'
       +td(di67[i],false,true)+td(de67[i],true,false)
       +td(di68[i],false,true)+td(de68[i],true,false)
       +td(di69[i],false,true)+td(de69[i],true,false)
       +'</tr>';
   });
-  t.innerHTML=h+'</tbody><tfoot><tr><td colspan="7" style="padding:8px 12px;font-size:11px;color:#475569">* ปี 2569 = ข้อมูล 6 เดือนแรก</td></tr></tfoot>';
+  t.innerHTML=h+'</tbody><tfoot><tr><td colspan="7" style="padding:8px 12px;font-size:12px;color:var(--dim)">* ปี 2569 = ข้อมูล 6 เดือนแรก</td></tr></tfoot>';
 }
 function render(){
   var labels=getLabels();
