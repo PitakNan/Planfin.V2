@@ -24,12 +24,14 @@
   --nav-h:52px; --bg:#f3f6fa; --panel:#fff; --panel2:#f8fafc; --text:#0f172a; --muted:#5b6b82; --border:#dfe6ef;
   --accent:#1d4ed8; --plan:#64748b; --actual:#1d4ed8;
   --ok:#15803d; --ok-bg:#dcfce7; --over:#c2410c; --over-bg:#ffedd5; --under:#6d28d9; --under-bg:#ede9fe; --na:#64748b; --na-bg:#e2e8f0;
+  --good:#a16207; --good-bg:#fef3c7; --bad:#b91c1c; --bad-bg:#fee2e2;
   --neg:#dc2626; --band:rgba(21,128,61,.14); --shadow:0 1px 3px rgba(15,23,42,.08);
 }
 :root[data-theme="dark"]{
   --bg:#0b1220; --panel:#111a2e; --panel2:#0e1627; --text:#e5e9f2; --muted:#93a0b6; --border:#243049;
   --accent:#6ea0ff; --plan:#94a3b8; --actual:#6ea0ff;
   --ok:#4ade80; --ok-bg:rgba(74,222,128,.14); --over:#fb923c; --over-bg:rgba(251,146,60,.16); --under:#a78bfa; --under-bg:rgba(167,139,250,.16); --na:#94a3b8; --na-bg:rgba(148,163,184,.16);
+  --good:#fbbf24; --good-bg:rgba(251,191,36,.16); --bad:#f87171; --bad-bg:rgba(248,113,113,.18);
   --neg:#f87171; --band:rgba(74,222,128,.16); --shadow:none;
 }
 *{box-sizing:border-box}
@@ -68,11 +70,23 @@ h3{font-size:15.5px;margin:0}
 .kpi .v{font-size:28px;font-weight:700;line-height:1.1}
 .kpi .l{color:var(--muted);font-size:13px}
 .kpi .s{font-size:12.5px;color:var(--muted);margin-top:4px}
+.kpi.clk{cursor:pointer;transition:border-color .15s,box-shadow .15s;min-height:44px}
+.kpi.clk:hover{border-color:var(--actual)}
+.kpi.clk:focus-visible{outline:2px solid var(--actual);outline-offset:2px}
+.kpi.clk.on{border-color:var(--actual);box-shadow:0 0 0 2px var(--actual) inset}
+.kpi .hint{font-size:11.5px;opacity:.85}
+@media print{.kpi .hint{display:none}}
 .badgebar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 0;font-size:13px}
 .pill{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:999px;font-size:12.5px;font-weight:600;white-space:nowrap}
 .pill.ok{background:var(--ok-bg);color:var(--ok)}
 .pill.over{background:var(--over-bg);color:var(--over)}
 .pill.under{background:var(--under-bg);color:var(--under)}
+.pill.good{background:var(--good-bg);color:var(--good)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.hl{display:inline-block;padding:1px 7px;border-radius:6px;font-weight:600;white-space:nowrap}
+.hl.ok{background:var(--ok-bg);color:var(--ok)}.hl.good{background:var(--good-bg);color:var(--good)}.hl.bad{background:var(--bad-bg);color:var(--bad)}
+.hl.strong{font-weight:800;padding:2px 9px;box-shadow:0 0 0 1px currentColor inset}
+.legendq{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 2px;font-size:12.5px;color:var(--muted)}
 .pill.na{background:var(--na-bg);color:var(--na)}
 .pill.stale{background:var(--over-bg);color:var(--over)}
 
@@ -116,6 +130,7 @@ td .sub{display:block;font-size:11.5px;color:var(--muted)}
 .dv .bd{position:absolute;top:3px;bottom:3px;background:var(--ok-bg);border-left:1px dashed var(--ok);border-right:1px dashed var(--ok)}
 .dv .z{position:absolute;left:50%;top:2px;bottom:2px;width:1px;background:var(--muted)}
 .dv .b{position:absolute;top:5px;height:12px;border-radius:2px}
+.dv .b.good{background:var(--good)}.dv .b.bad{background:var(--bad)}
 .dv .b.ok{background:var(--ok)}.dv .b.over{background:var(--over)}.dv .b.under{background:var(--under)}.dv .b.na{background:var(--na)}
 .dvt{display:inline-block;min-width:58px;text-align:right}
 
@@ -209,25 +224,29 @@ function annualOf(hc, item) {                          // แผนทั้ง�
   return v;
 }
 function planM(hc, item, k) { return annualOf(hc, item) / 12; }   // แผนรายเดือน = ทั้งปี ÷ 12 (วิธีเดียวกับ กศภ.)
-function judge(act, pl) {
-  var diff = act - pl, pct = null;
+/* pol: +1 = สูงกว่าแผนถือว่าดี (รายได้ NI EBITDA) ; -1 = ต่ำกว่าแผนถือว่าดี (ค่าใช้จ่าย) — ใช้กับสีเท่านั้น การนับ "ผิดแผน" ยังดูแค่ ±TOL */
+var POL = {};
+function polOf(item) { if (!POL[item]) { var it = META.items.filter(function (i) { return i.id === item; })[0]; POL[item] = it && it.g.indexOf('exp') >= 0 || it && it.g === 'sumexp' ? -1 : 1; } return POL[item]; }
+function judge(act, pl, pol) {
+  var diff = act - pl, pct = null; pol = pol || 1;
   if (pl !== 0) pct = Math.round(diff / Math.abs(pl) * 1000) / 10;   // ตัดสินจากค่าที่แสดง (ปัด 1 ตำแหน่ง)
   else if (act === 0) pct = 0;
   var st = pct == null ? 'over' : (Math.abs(pct) <= TOL ? 'ok' : (diff > 0 ? 'over' : 'under'));
-  return { diff: diff, pct: pct, st: st };
+  var q = st === 'ok' ? 'ok' : ((st === 'over') === (pol > 0) ? 'good' : 'bad');   // good = ผิดแผนทางดี (เหลือง) · bad = ผิดแผนทางร้าย (แดง)
+  return { diff: diff, pct: pct, st: st, q: q, pol: pol };
 }
-function evalSeries(am, pm, L) {                       // am/pm = 12 ช่อง ; L = จำนวนเดือนที่มีผลจริง
+function evalSeries(am, pm, L, item) {                 // am/pm = 12 ช่อง ; L = จำนวนเดือนที่มีผลจริง
   var act = 0, pl = 0;
   for (var k = 0; k < L; k++) { act += am[k] || 0; pl += pm[k]; }
-  var j = judge(act, pl);
-  return { act: act, plan: pl, diff: j.diff, pct: j.pct, st: j.st, L: L, am: am, pm: pm };
+  var j = judge(act, pl, polOf(item));
+  return { act: act, plan: pl, diff: j.diff, pct: j.pct, st: j.st, q: j.q, pol: j.pol, L: L, am: am, pm: pm };
 }
 function evalItem(hc, item) {
   var key = hc + '|' + item; if (CACHE[key]) return CACHE[key];
   var A = ACT[hc]; if (!A || !A.L) return (CACHE[key] = null);
   var arr = A.m[item] || [], am = [], pm = [];
   for (var k = 0; k < 12; k++) { am.push(k < A.L ? (arr[k] == null ? 0 : arr[k]) : null); pm.push(planM(hc, item, k)); }
-  return (CACHE[key] = evalSeries(am, pm, A.L));
+  return (CACHE[key] = evalSeries(am, pm, A.L, item));
 }
 function evalRegion(item, codes) {                     // รวมเฉพาะ รพ.ที่ส่งครบถึงเดือนล่าสุด (เทียบแผนชุดเดียวกัน)
   var am = [], pm = [], k, L = META.latest_month;
@@ -236,7 +255,7 @@ function evalRegion(item, codes) {                     // รวมเฉพา�
     var arr = ACT[hc].m[item] || [];
     for (k = 0; k < 12; k++) { if (k < L) am[k] += arr[k] || 0; pm[k] += planM(hc, item, k); }
   });
-  return evalSeries(am, pm, L);
+  return evalSeries(am, pm, L, item);
 }
 function itemsFor(hc) {                                // เฉพาะรายการที่มีตัวเลข (แผนหรือผลจริงไม่เป็น 0)
   return META.items.filter(function (it) {
@@ -301,7 +320,7 @@ function barChart(e) {
       '<text x="' + (x + bw / 2) + '" y="' + (v >= 0 ? top - 5 : top + h + 26) + '" text-anchor="middle" font-size="10.5">ล้านบาท</text>' +
       '<text x="' + (x + bw / 2) + '" y="' + (H - 22) + '" text-anchor="middle" font-size="12">' + lab + '</text>';
   };
-  var col = { ok: 'var(--ok)', over: 'var(--over)', under: 'var(--under)' }[e.st];
+  var col = { ok: 'var(--ok)', good: 'var(--good)', bad: 'var(--bad)' }[e.q];
   g += bar(x1, e.plan, 'var(--plan)', 'แผน');
   g += bar(x2, e.act, col, 'ผลจริง');
   g += '<text x="' + W / 2 + '" y="' + (H - 6) + '" text-anchor="middle" font-size="11">สะสม ' + MONTHS[0] + ' – ' + MONTHS[e.L - 1] + ' · หน่วย: ล้านบาท</text>';
@@ -331,16 +350,21 @@ function attachTips(root) {
 }
 
 /* ====================== ส่วนประกอบ UI ====================== */
+var LEGENDQ = '<span class="pill ok">● ตามแผน (±5%)</span> <span class="pill good">ผิดแผนทางดี (รายได้สูง / ค่าใช้จ่ายต่ำ)</span> <span class="pill bad">ผิดแผนทางร้าย (รายได้ต่ำ / ค่าใช้จ่ายสูง)</span>';
 var ST = { ok: ['✓ ตามแผน', 'ok'], over: ['▲ สูงกว่าแผน', 'over'], under: ['▼ ต่ำกว่าแผน', 'under'] };
 function pill(e) {
   if (!e) return '<span class="pill na">ยังไม่ส่งข้อมูล</span>';
-  var s = ST[e.st]; return '<span class="pill ' + s[1] + '">' + s[0] + '</span>';
+  var s = ST[e.st]; return '<span class="pill ' + e.q + '">' + s[0] + '</span>';
 }
+function arrow(pct) { return pct == null ? '▲' : pct > TOL ? '▲' : pct < -TOL ? '▼' : '●'; }
+/* ไฮไลต์ตัวเลขตามสถานะ: q = ok/good/bad ; txt = ข้อความที่แสดง ; strong = แถวสะสม */
+function hl(q, txt, strong, pct) { return '<span class="hl num ' + q + (strong ? ' strong' : '') + '">' + (pct === undefined ? '' : arrow(pct) + ' ') + txt + '</span>'; }
+function hlE(e, txt, strong, withArrow) { return hl(e.q, txt, strong, withArrow ? e.pct : undefined); }
 function pctCell(e) {
   if (!e) return '<span class="muted">–</span>';
-  if (MODE === 'num') return '<span class="num">' + fmtPctSigned(e.pct) + '</span>';
+  if (MODE === 'num') return hlE(e, fmtPctSigned(e.pct), false, true);
   var p = e.pct == null ? 0 : Math.max(-30, Math.min(30, e.pct)), w = Math.abs(p) / 30 * 50;
-  var b = '<span class="b ' + e.st + '" style="' + (p >= 0 ? 'left:50%' : 'right:50%') + ';width:' + w + '%"></span>';
+  var b = '<span class="b ' + e.q + '" style="' + (p >= 0 ? 'left:50%' : 'right:50%') + ';width:' + w + '%"></span>';
   return '<span class="dv" title="' + fmtPctSigned(e.pct) + '"><span class="tr"></span><span class="bd" style="left:' + (50 - TOL / 30 * 50) + '%;right:' + (50 - TOL / 30 * 50) + '%"></span><span class="z"></span>' + b + '</span> <span class="dvt num">' + fmtPctSigned(e.pct) + '</span>';
 }
 var UID = 0;
@@ -354,10 +378,11 @@ function evPanel(title, e, opts) {
   if (MODE === 'num') {
     var rows = '';
     for (var k = 0; k < 12; k++) {
-      var a = e.am[k], p = e.pm[k], j = a == null ? null : judge(a, p);
-      rows += '<tr' + (a == null ? ' style="opacity:.5"' : '') + '><td class="l">' + MONTHS[k] + '</td><td class="num">' + fmtBaht(p) + '</td><td class="num ' + (a != null && a < 0 ? 'neg' : '') + '">' + fmtBaht(a) + '</td><td class="num">' + (j ? (j.diff > 0 ? '+' : '') + fmtBaht(j.diff) : '–') + '</td><td class="num">' + (j ? fmtPctSigned(j.pct) : '–') + '</td></tr>';
+      var a = e.am[k], p = e.pm[k], j = a == null ? null : judge(a, p, e.pol);
+      var av = a == null ? fmtBaht(a) : (a < 0 ? '<span class="neg">' + fmtBaht(a) + '</span>' : fmtBaht(a));
+      rows += '<tr' + (a == null ? ' style="opacity:.5"' : '') + '><td class="l">' + MONTHS[k] + '</td><td class="num">' + fmtBaht(p) + '</td><td class="num">' + (j ? hl(j.q, av) : av) + '</td><td class="num">' + (j ? hl(j.q, (j.diff > 0 ? '+' : '') + fmtBaht(j.diff)) : '–') + '</td><td class="num">' + (j ? hl(j.q, fmtPctSigned(j.pct), false, j.pct) : '–') + '</td></tr>';
     }
-    rows += '<tr class="ytd"><td class="l">สะสม ' + MONTHS[0] + '–' + MONTHS[e.L - 1] + '</td><td class="num">' + fmtBaht(e.plan) + '</td><td class="num">' + fmtBaht(e.act) + '</td><td class="num">' + (e.diff > 0 ? '+' : '') + fmtBaht(e.diff) + '</td><td class="num">' + fmtPctSigned(e.pct) + '</td></tr>';
+    rows += '<tr class="ytd"><td class="l">สะสม ' + MONTHS[0] + '–' + MONTHS[e.L - 1] + '</td><td class="num">' + fmtBaht(e.plan) + '</td><td class="num">' + hlE(e, fmtBaht(e.act), true) + '</td><td class="num">' + hlE(e, (e.diff > 0 ? '+' : '') + fmtBaht(e.diff), true) + '</td><td class="num">' + hlE(e, fmtPctSigned(e.pct), true, true) + '</td></tr>';
     body = '<div class="tablebox" style="max-height:none"><table class="mt"><thead><tr><th class="l">เดือน</th><th>แผน (บาท)</th><th>ผลจริง (บาท)</th><th>ส่วนต่าง</th><th>%</th></tr></thead><tbody>' + rows + '</tbody></table></div>' + diffline;
   } else {
     body = '<div class="pair"><div><div class="legend"><span><i class="d" style="border-color:var(--plan)"></i>แผน (ทั้งปี÷12)</span><span><i style="border-color:var(--actual)"></i>ผลจริงรายเดือน</span><span><i class="bx"></i>ช่วง ±' + TOL + '%</span></div>' + lineChart(e, id) + '<div class="note" style="text-align:center">ล้านบาท · แตะ/ชี้เส้นเพื่อดูตัวเลขแต่ละเดือน</div></div><div>' + barChart(e) + diffline + '</div></div>';
@@ -374,28 +399,48 @@ function freshnessBar() {
 }
 
 /* ====================== หน้า: ภาพรวมเขต ====================== */
-var FS = { prov: 'ทั้งหมด', status: 'all', q: '', sort: 'prov', dir: 1 };
+var FS = { prov: 'ทั้งหมด', status: 'all', q: '', sort: 'prov', dir: 1, grp: '' };
 function pageHome() {
   var sums = META.hospitals.map(function (h) { return hospSummary(h.c); });
   var sent = sums.filter(function (s) { return !s.na; });
   var okRev = sent.filter(function (s) { return s.rev.st === 'ok'; }).length, okExp = sent.filter(function (s) { return s.exp.st === 'ok'; }).length;
   var okBoth = sent.filter(function (s) { return s.rev.st === 'ok' && s.exp.st === 'ok'; }).length;
-  var full = sent.filter(function (s) { return !s.late; }).map(function (s) { return s.hc; });
-  var rg = full.length ? [evalRegion('P_REV_TOTAL', full), evalRegion('P_EXP_TOTAL', full)] : [null, null];
   var h = '<h2 style="margin-top:6px">ภาพรวมเขตสุขภาพที่ 1 · ผลตามแผน ปีงบประมาณ ' + META.fy + '</h2>' + freshnessBar();
-  h += '<div class="cards">' +
-    kpi('ส่งข้อมูลแล้ว', sent.length + '/' + META.total, 'แห่ง · ยังไม่ส่ง ' + (META.total - sent.length) + ' แห่ง') +
-    kpi('รวมรายได้ อยู่ในเกณฑ์ ±' + TOL + '%', okRev + '/' + sent.length, pctOf(okRev, sent.length) + ' ของที่ส่งข้อมูล') +
-    kpi('รวมค่าใช้จ่าย อยู่ในเกณฑ์ ±' + TOL + '%', okExp + '/' + sent.length, pctOf(okExp, sent.length) + ' ของที่ส่งข้อมูล') +
-    kpi('ตามแผนทั้งรายได้และค่าใช้จ่าย', okBoth + '/' + sent.length, pctOf(okBoth, sent.length) + ' ของที่ส่งข้อมูล') + '</div>';
-  h += '<div class="filter-bar"><span class="muted" style="font-size:13px">แสดงผล</span>' + modeSeg() + '<span class="sp"></span><span class="note">ภาพรวมเขต: รวมเฉพาะ รพ.ที่ส่งครบถึง ' + MONTHS[META.latest_month - 1] + ' (' + full.length + ' แห่ง)</span></div>';
-  h += '<div id="regionPanels">' + evPanel('ภาพรวมเขต · รวมรายได้', rg[0]) + evPanel('ภาพรวมเขต · รวมค่าใช้จ่าย', rg[1]) + '</div>';
+  h += '<div class="cards" id="kpis">' +
+    kpi('ส่งข้อมูลแล้ว', sent.length + '/' + META.total, 'แห่ง · ยังไม่ส่ง ' + (META.total - sent.length) + ' แห่ง', 'sent') +
+    kpi('รวมรายได้ อยู่ในเกณฑ์ ±' + TOL + '%', okRev + '/' + sent.length, pctOf(okRev, sent.length) + ' ของที่ส่งข้อมูล', 'rev') +
+    kpi('รวมค่าใช้จ่าย อยู่ในเกณฑ์ ±' + TOL + '%', okExp + '/' + sent.length, pctOf(okExp, sent.length) + ' ของที่ส่งข้อมูล', 'exp') +
+    kpi('ตามแผนทั้งรายได้และค่าใช้จ่าย', okBoth + '/' + sent.length, pctOf(okBoth, sent.length) + ' ของที่ส่งข้อมูล', 'both') + '</div>';
+  h += '<div class="filter-bar"><span class="muted" style="font-size:13px">แสดงผล</span>' + modeSeg() + '<span class="sp"></span><span class="note" id="regNote"></span></div>';
+  h += '<div id="regionPanels"></div>';
   h += '<h2>รายโรงพยาบาล (' + META.total + ' แห่ง)</h2>' + hospFilterBar() + '<div id="hospTable"></div>';
   if (META.quality && META.quality.length) h += qualityBox();
   h += '<div class="foot">เกณฑ์: ผลจริงสะสมเทียบแผน (ทั้งปี÷12 × จำนวนเดือน) คลาดเคลื่อนเกิน ±' + TOL + '% = ผิดแผน ทั้งสูงกว่าและต่ำกว่า · <a href="#/about">ดูวิธีอ่าน/นิยาม</a> · <a href="v1/index.html">เวอร์ชันเดิม (ปี 2569)</a></div>';
-  $('#app').innerHTML = h; attachTips($('#app')); drawHospTable(sums); bindFilters(sums);
+  $('#app').innerHTML = h; drawRegion(sums); drawHospTable(sums); bindFilters(sums);
 }
-function kpi(l, v, s) { return '<div class="card kpi"><div class="l">' + l + '</div><div class="v num">' + v + '</div><div class="s">' + s + '</div></div>'; }
+var GRP = { sent: 'ส่งข้อมูลแล้ว', rev: 'รวมรายได้อยู่ในเกณฑ์', exp: 'รวมค่าใช้จ่ายอยู่ในเกณฑ์', both: 'ตามแผนทั้งรายได้และค่าใช้จ่าย' };
+function inGrp(s) {
+  if (!FS.grp) return true;
+  if (s.na) return false;
+  if (FS.grp === 'rev') return s.rev.st === 'ok';
+  if (FS.grp === 'exp') return s.exp.st === 'ok';
+  if (FS.grp === 'both') return s.rev.st === 'ok' && s.exp.st === 'ok';
+  return true;
+}
+function drawRegion(sums) {                              // ภาพรวมเขต = รวมเฉพาะ รพ.ในกลุ่มที่เลือก (ถ้ามี) ที่ส่งครบถึงเดือนล่าสุด
+  var inG = sums.filter(function (s) { return !s.na && inGrp(s); });
+  var full = inG.filter(function (s) { return !s.late; }).map(function (s) { return s.hc; });
+  var tag = FS.grp ? ' · กลุ่ม "' + GRP[FS.grp] + '"' : '';
+  var rg = full.length ? [evalRegion('P_REV_TOTAL', full), evalRegion('P_EXP_TOTAL', full)] : [null, null];
+  $('#regNote').textContent = (FS.grp ? 'กลุ่ม "' + GRP[FS.grp] + '" ' + inG.length + ' แห่ง · ' : 'ภาพรวมเขต: ') + 'รวมเฉพาะ รพ.ที่ส่งครบถึง ' + MONTHS[META.latest_month - 1] + ' (' + full.length + ' แห่ง)';
+  TIPS = {};
+  $('#regionPanels').innerHTML = evPanel('ภาพรวมเขต · รวมรายได้' + tag, rg[0]) + evPanel('ภาพรวมเขต · รวมค่าใช้จ่าย' + tag, rg[1]);
+  attachTips($('#regionPanels'));
+}
+function kpi(l, v, s, g) {
+  if (!g) return '<div class="card kpi"><div class="l">' + l + '</div><div class="v num">' + v + '</div><div class="s">' + s + '</div></div>';
+  return '<div class="card kpi clk' + (FS.grp === g ? ' on' : '') + '" role="button" tabindex="0" aria-pressed="' + (FS.grp === g) + '" data-g="' + g + '" title="คลิกเพื่อกรองเฉพาะกลุ่มนี้ (คลิกซ้ำเพื่อยกเลิก)"><div class="l">' + l + '</div><div class="v num">' + v + '</div><div class="s">' + s + '</div><div class="s hint">' + (FS.grp === g ? '✓ กำลังกรอง · คลิกเพื่อยกเลิก' : 'คลิกเพื่อดูเฉพาะกลุ่มนี้') + '</div></div>';
+}
 function pctOf(a, b) { return b ? (a / b * 100).toFixed(0) + '%' : '-'; }
 function hospFilterBar() {
   var provs = ['ทั้งหมด'].concat(Array.from(new Set(META.hospitals.map(function (h) { return h.p; }))));
@@ -404,11 +449,16 @@ function hospFilterBar() {
     '<div class="seg" id="provSeg" style="flex-wrap:wrap">' + provs.map(function (p) { return '<button data-p="' + esc(p) + '" class="' + (FS.prov === p ? 'active' : '') + '">' + esc(p) + '</button>'; }).join('') + '</div>' +
     '<div class="seg" id="stSeg" style="flex-wrap:wrap">' + st.map(function (s) { return '<button data-s="' + s[0] + '" class="' + (FS.status === s[0] ? 'active' : '') + '">' + s[1] + '</button>'; }).join('') + '</div></div>';
 }
+function overall(s) {                                  // สถานะรวมของ รพ.: ถ้าผิดแผนทั้งคู่ เอาทางร้ายก่อน
+  var bad = [s.rev, s.exp].filter(function (e) { return e.q === 'bad'; })[0];
+  return bad || [s.rev, s.exp].filter(function (e) { return e.q === 'good'; })[0] || s.rev;
+}
 function drawHospTable(sums) {
   var q = FS.q.trim().toLowerCase();
   var rows = sums.filter(function (s) {
     if (FS.prov !== 'ทั้งหมด' && s.h.p !== FS.prov) return false;
     if (q && (s.h.n + ' ' + s.hc).toLowerCase().indexOf(q) < 0) return false;
+    if (!inGrp(s)) return false;
     if (FS.status === 'na') return s.na;
     if (FS.status === 'out') return !s.na && (s.rev.st !== 'ok' || s.exp.st !== 'ok');
     if (FS.status === 'in') return !s.na && s.rev.st === 'ok' && s.exp.st === 'ok';
@@ -421,12 +471,23 @@ function drawHospTable(sums) {
   rows.forEach(function (s) {
     var nm = '<td class="l hname">' + esc(s.h.n) + '<span class="sub">' + esc(s.h.p) + ' · ' + s.hc + (s.late ? ' · ข้อมูลถึง ' + MONTHS[s.L - 1] : '') + '</span></td>';
     if (s.na) h += '<tr class="clickable" data-h="' + s.hc + '">' + nm + '<td colspan="7" style="text-align:center" class="muted">ยังไม่มีข้อมูลผลจริง</td><td>' + pill(null) + '</td></tr>';
-    else h += '<tr class="clickable" data-h="' + s.hc + '">' + nm + '<td class="num">' + fmtMB(s.rev.plan) + '</td><td class="num">' + fmtMB(s.rev.act) + '</td><td>' + pctCell(s.rev) + '</td><td class="num">' + fmtMB(s.exp.plan) + '</td><td class="num">' + fmtMB(s.exp.act) + '</td><td>' + pctCell(s.exp) + '</td><td class="num">' + s.out + '/' + s.n + '</td><td>' + pill(s.rev.st === 'ok' && s.exp.st === 'ok' ? s.rev : (s.rev.st !== 'ok' ? s.rev : s.exp)) + '</td></tr>';
+    else h += '<tr class="clickable" data-h="' + s.hc + '">' + nm + '<td class="num">' + fmtMB(s.rev.plan) + '</td><td class="num">' + (MODE === 'num' ? hlE(s.rev, fmtMB(s.rev.act)) : fmtMB(s.rev.act)) + '</td><td>' + pctCell(s.rev) + '</td><td class="num">' + fmtMB(s.exp.plan) + '</td><td class="num">' + (MODE === 'num' ? hlE(s.exp, fmtMB(s.exp.act)) : fmtMB(s.exp.act)) + '</td><td>' + pctCell(s.exp) + '</td><td class="num">' + s.out + '/' + s.n + '</td><td>' + pill(overall(s)) + '</td></tr>';
   });
-  h += '</tbody></table></div><div class="note" style="margin:6px 2px">แสดง ' + rows.length + ' แห่ง · ตัวเลขเป็นล้านบาท สะสมถึงเดือนล่าสุดของแต่ละแห่ง · คลิกแถวเพื่อดูรายละเอียด</div>';
+  h += '</tbody></table></div><div class="legendq">' + LEGENDQ + '</div><div class="note" style="margin:6px 2px">แสดง ' + rows.length + ' แห่ง · ตัวเลขเป็นล้านบาท สะสมถึงเดือนล่าสุดของแต่ละแห่ง · คลิกแถวเพื่อดูรายละเอียด</div>';
   $('#hospTable').innerHTML = h;
 }
 function bindFilters(sums) {
+  function pickGrp(card) {
+    FS.grp = FS.grp === card.dataset.g ? '' : card.dataset.g; FS.status = 'all';
+    $('#kpis').querySelectorAll('.clk').forEach(function (c) {
+      var on = c.dataset.g === FS.grp; c.classList.toggle('on', on); c.setAttribute('aria-pressed', on);
+      c.querySelector('.hint').textContent = on ? '✓ กำลังกรอง · คลิกเพื่อยกเลิก' : 'คลิกเพื่อดูเฉพาะกลุ่มนี้';
+    });
+    $('#stSeg').querySelectorAll('button').forEach(function (x) { x.classList.toggle('active', x.dataset.s === 'all'); });
+    drawRegion(sums); drawHospTable(sums);
+  }
+  $('#kpis').addEventListener('click', function (e) { var c = e.target.closest('.clk'); if (c) pickGrp(c); });
+  $('#kpis').addEventListener('keydown', function (e) { var c = e.target.closest('.clk'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); pickGrp(c); } });
   $('#q').addEventListener('input', function (e) { FS.q = e.target.value; drawHospTable(sums); });
   $('#provSeg').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; FS.prov = b.dataset.p; $('#provSeg').querySelectorAll('button').forEach(function (x) { x.classList.toggle('active', x === b); }); drawHospTable(sums); });
   $('#stSeg').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; FS.status = b.dataset.s; $('#stSeg').querySelectorAll('button').forEach(function (x) { x.classList.toggle('active', x === b); }); drawHospTable(sums); });
@@ -466,10 +527,10 @@ function pageHosp(hc) {
     var gname = it.g === 'rev' ? 'รายได้' : it.g === 'exp' ? 'ค่าใช้จ่าย' : it.g === 'sum' ? 'ผลลัพธ์' : null;
     if (gname && gname !== last) { h += '<tr class="grp"><td colspan="6">' + gname + '</td></tr>'; last = gname; }
     var open = !!OPEN[hc + it.id];
-    h += '<tr class="clickable' + (it.g.indexOf('sum') === 0 ? ' ytd' : '') + '" data-item="' + it.id + '"><td class="l hname" style="' + (it.g.indexOf('sum') === 0 ? 'font-weight:700' : '') + '">' + (open ? '▾ ' : '▸ ') + (it.g.indexOf('sum') === 0 ? '' : '<span class="muted">' + it.id + '</span> ') + esc(it.label) + '</td><td class="num">' + fmtBaht(e.plan) + '</td><td class="num">' + fmtBaht(e.act) + '</td><td class="num">' + (e.diff > 0 ? '+' : '') + fmtBaht(e.diff) + '</td><td class="num">' + fmtPctSigned(e.pct) + '</td><td>' + pill(e) + '</td></tr>';
+    h += '<tr class="clickable' + (it.g.indexOf('sum') === 0 ? ' ytd' : '') + '" data-item="' + it.id + '"><td class="l hname" style="' + (it.g.indexOf('sum') === 0 ? 'font-weight:700' : '') + '">' + (open ? '▾ ' : '▸ ') + (it.g.indexOf('sum') === 0 ? '' : '<span class="muted">' + it.id + '</span> ') + esc(it.label) + '</td><td class="num">' + fmtBaht(e.plan) + '</td><td class="num">' + hlE(e, fmtBaht(e.act)) + '</td><td class="num">' + hlE(e, (e.diff > 0 ? '+' : '') + fmtBaht(e.diff)) + '</td><td class="num">' + hlE(e, fmtPctSigned(e.pct), false, true) + '</td><td>' + pill(e) + '</td></tr>';
     if (open) h += '<tr class="acc-row"><td colspan="6"><div class="acc-in">' + evPanel(it.label, e) + '</div></td></tr>';
   });
-  h += '</tbody></table></div><div class="foot">ผลจริงมาจากรายงาน Planfin ของระบบ HFA (กศภ.) · แผนจากไฟล์ worksheet ที่ รพ. ส่ง · <a href="#/about">วิธีอ่าน/นิยาม</a></div>';
+  h += '</tbody></table></div><div class="legendq">' + LEGENDQ + '</div><div class="foot">ผลจริงมาจากรายงาน Planfin ของระบบ HFA (กศภ.) · แผนจากไฟล์ worksheet ที่ รพ. ส่ง · <a href="#/about">วิธีอ่าน/นิยาม</a></div>';
   $('#app').innerHTML = h; attachTips($('#app')); bindPicker(); bindMode();
   $('#chkZero').addEventListener('change', function (e) { SHOWZERO = e.target.checked; route(); });
   $('#itemTable').addEventListener('click', function (e) { var tr = e.target.closest('tr[data-item]'); if (!tr) return; var k = hc + tr.dataset.item; OPEN[k] = !OPEN[k]; var sy = scrollY; route(); scrollTo(0, sy); });
@@ -511,7 +572,7 @@ function pageAbout() {
     '<li><b>การตัดสิน</b> ใช้ผลจริง<u>สะสม</u>เทียบแผน<u>สะสม</u>ถึงเดือนล่าสุดของโรงพยาบาลนั้น (เช่น ถึง พ.ย. = แผน × 2/12)</li>' +
     '<li><b>เกณฑ์ ±' + TOL + '%</b> ใช้กับทุกรายการ (P) รวมรายได้ รวมค่าใช้จ่าย NI และ EBITDA · ผลต่าง % = (ผลจริง − แผน) ÷ |แผน| · <b>คลาดเคลื่อนเกินเกณฑ์ทั้งสองทิศถือว่า "ผิดแผน"</b> ' +
     '(สูงกว่าแผนอาจแปลว่าประมาณการไม่แม่น เช่นเดียวกับต่ำกว่าแผน) · ตัดสินจากค่า % ที่ปัดทศนิยม 1 ตำแหน่งตามที่แสดง · ถ้าแผนเป็น 0 แต่มีผลจริง ถือว่าผิดแผน (แสดง "แผน 0")</li></ul>' +
-    '<h3>สี</h3><p><span class="pill ok">✓ ตามแผน</span> อยู่ในเกณฑ์ · <span class="pill over">▲ สูงกว่าแผน</span> เกินเกณฑ์ด้านบน · <span class="pill under">▼ ต่ำกว่าแผน</span> เกินเกณฑ์ด้านล่าง · <span class="pill na">ยังไม่ส่งข้อมูล</span></p>' +
+    '<h3>สี</h3><p>ลูกศรบอกทิศทาง (▲ สูงกว่าแผน · ▼ ต่ำกว่าแผน) ส่วนสีบอกว่าผิดแผนไปทางดีหรือทางร้าย: ' + LEGENDQ + '</p><p class="note">รายได้ NI EBITDA: สูงกว่าแผนถือว่าดี · ค่าใช้จ่าย: ต่ำกว่าแผนถือว่าดี · ทั้งสองทางยังนับเป็น "ผิดแผน" เท่ากัน สีใช้บอกลักษณะเท่านั้น</p><p><span class="pill na">ยังไม่ส่งข้อมูล</span></p>' +
     '<h3>การจับคู่รหัสบัญชีแผน–HFA</h3><ul><li>แผน P10 (รายได้ค่ารักษาและบริการอื่น ๆ) = HFA P09.1 + P09.2 + P09.3 + P10</li><li>แผน P13S/P26S/P27S/P29 = HFA รวมรายได้/รวมค่าใช้จ่าย/NI/EBITDA · รายการอื่นตรงรหัสเดียวกัน</li></ul>' +
     '<h3>แหล่งข้อมูล</h3><ul><li>ผลจริง: ระบบ HFA กศภ. ดึงเมื่อ ' + thaiDateTime(META.pulled_at) + ' · ข้อมูลถึงเดือน ' + MONTHS[META.latest_month - 1] + ' · ส่งแล้ว ' + META.sent + '/' + META.total + ' แห่ง</li>' +
     v.map(function (x) { return '<li>แผน: ' + esc(x.label) + ' ' + (x === v[v.length - 1] ? '(ฉบับที่ใช้คำนวณ)' : '(ถูกแทนที่แล้ว)') + '</li>'; }).join('') + '</ul>' +
